@@ -60,22 +60,71 @@
 
 # main.py - Classification Model Training
 
-from src.models.train_classification import run_classification_pipeline
+# from src.models.train_classification import run_classification_pipeline
+# from src.config.settings import (
+#     STRESS_DATA_PATH,
+#     CLF_MODEL_PATH,
+#     LABEL_ENCODER_PATH
+# )
+
+
+# def main():
+#     run_classification_pipeline(
+#         data_path=STRESS_DATA_PATH,
+#         model_path=CLF_MODEL_PATH,
+#         encoder_path=LABEL_ENCODER_PATH
+#     )
+
+#     print("Milestone 3B completed: Classification model trained.")
+
+
+# if __name__ == "__main__":
+#     main()
+
+
+
+#---------------------- SHAP Explainability
+
+import joblib
+from src.explainability.shap_regression import run_shap_regression
+from src.explainability.shap_classification import run_shap_classification
 from src.config.settings import (
     STRESS_DATA_PATH,
+    REG_MODEL_PATH,
     CLF_MODEL_PATH,
-    LABEL_ENCODER_PATH
+    SHAP_REG_PLOT,
+    SHAP_CLF_PLOT
 )
+
+FEATURE_COLS = [
+    "Charging Rate (kW)",
+    "abs_temperature",
+    "soc_change",
+    "Charging Duration (hours)",
+    "Vehicle Age (years)",
+    "charger_risk"
+]
 
 
 def main():
-    run_classification_pipeline(
+    reg_model = joblib.load(REG_MODEL_PATH)
+    clf_model = joblib.load(CLF_MODEL_PATH)
+
+    run_shap_regression(
+        model=reg_model,
         data_path=STRESS_DATA_PATH,
-        model_path=CLF_MODEL_PATH,
-        encoder_path=LABEL_ENCODER_PATH
+        feature_cols=FEATURE_COLS,
+        output_path=SHAP_REG_PLOT
     )
 
-    print("Milestone 3B completed: Classification model trained.")
+    run_shap_classification(
+        model=clf_model,
+        data_path=STRESS_DATA_PATH,
+        feature_cols=FEATURE_COLS,
+        output_path=SHAP_CLF_PLOT
+    )
+
+    print("Milestone 3C completed: SHAP explainability generated.")
 
 
 if __name__ == "__main__":

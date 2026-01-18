@@ -14,3 +14,10 @@ REG_MODEL_PATH = "models/battery_stress_regressor.pkl"
 
 CLF_MODEL_PATH = "models/battery_risk_classifier.pkl"
 LABEL_ENCODER_PATH = "models/battery_risk_label_encoder.pkl"
+
+
+
+#------------- SHAP Plot Paths ----------------
+
+SHAP_REG_PLOT = "results/figures/shap_regression.png"
+SHAP_CLF_PLOT = "results/figures/shap_classification.png"
